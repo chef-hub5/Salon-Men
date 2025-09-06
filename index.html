@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Elite Men's Salon</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <style>
+        .hero-bg {
+            background-image: url('hero-image-1.jpg'); /* Change this to your first hero image */
+            background-size: cover;
+            background-position: center;
+            transition: all 1s ease-in-out;
+        }
+        
+        .flip-card {
+            background-color: transparent;
+            perspective: 1000px;
+        }
+        
+        .flip-card-inner {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            text-align: center;
+            transition: transform 0.6s;
+            transform-style: preserve-3d;
+        }
+        
+        .flip-card:hover .flip-card-inner {
+            transform: rotateY(180deg);
+        }
+        
+        .flip-card-front, .flip-card-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            -webkit-backface-visibility: hidden;
+            backface-visibility: hidden;
+            border-radius: 0.5rem;
+        }
+        
+        .flip-card-back {
+            transform: rotateY(180deg);
+            background-image: url('https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80');
+            background-size: cover;
+            background-position: center;
+        }
+        
+        .slide-in {
+            transform: translateX(100%);
+            transition: transform 0.3s ease-in-out;
+        }
+        
+        .slide-in.active {
+            transform: translateX(0);
+        }
+        
+        .dropdown:hover .dropdown-menu {
+            display: block;
+        }
+        
+        .sticky-icons {
+            position: fixed;
+            right: 20px;
+            bottom: 20px;
+            z-index: 1000;
+        }
+        
+        @media (max-width: 768px) {
+            .hero-text {
+                font-size: 1.5rem;
+            }
+            .service-card {
+                margin: 0.5rem;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100">
+    <!-- Sticky Header -->
+    <header class="fixed top-0 w-full bg-black bg-opacity-90 text-white z-50 transition-all duration-300">
+        <div class="container mx-auto px-4 py-3">
+            <div class="flex justify-between items-center">
+                <div class="flex items-center cursor-pointer" onclick="scrollToTop()">
+                    <img src="https://images.unsplash.com/photo-1599305445671-ac291c95aaa9?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Logo" class="h-12 w-12 rounded-full mr-3">
+                    <div>
+                        <h1 class="text-xl font-bold">UNISEX SALON</h1>
+                        <p class="text-xs">Premium Grooming Experience</p>
+                    </div>
+                </div>
+                
+                <nav class="hidden md:flex space-x-6">
+                    <a href="#home" class="hover:text-yellow-400 transition-colors">Home</a>
+                    <a href="#services" class="hover:text-yellow-400 transition-colors">Services</a>
+                    <div class="dropdown relative">
+                        <a href="#gallery" class="hover:text-yellow-400 transition-colors cursor-pointer">Gallery <i class="fas fa-chevron-down ml-1"></i></a>
+                        <div class="dropdown-menu absolute top-full left-0 bg-black bg-opacity-95 mt-2 py-2 px-4 rounded shadow-lg hidden min-w-max">
+                            <a href="#gallery" class="flex items-center py-2 hover:text-yellow-400">
+                                <img src="New folder/hero-image-2.jpg" alt="Men's Gallery" class="w-8 h-8 rounded mr-2 object-cover">
+                                Men's Gallery
+                            </a>
+                            <a href="https://chef-hub5.github.io/Salon/" target="_blank" class="flex items-center py-2 hover:text-yellow-400">
+                                <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=40&q=80" alt="Women's Gallery" class="w-8 h-8 rounded mr-2 object-cover">
+                                Women's Gallery
+                            </a>
+                        </div>
+                    </div>
+                    <a href="#team" class="hover:text-yellow-400 transition-colors">Join Our Team</a>
+                    <a href="#contact" class="hover:text-yellow-400 transition-colors">Contact</a>
+                </nav>
+                
+                <button onclick="openBooking()" class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition-colors">
+                    Book Now
+                </button>
+            </div>
+        </div>
+    </header>
+
+    <!-- Hero Section -->
+    <section id="home" class="hero-bg min-h-screen flex items-center justify-center relative">
+        <div class="absolute inset-0 bg-black bg-opacity-50"></div>
+        <div class="text-center text-white z-10 px-4">
+            <h1 class="hero-text text-4xl md:text-6xl font-bold mb-4" id="heroTitle">Welcome to Unisex Salon</h1>
+            <p class="text-lg md:text-xl mb-8 max-w-2xl mx-auto" id="heroSubtitle">Experience premium grooming services for everyone</p>
+            <button onclick="openBooking()" class="bg-yellow-600 hover:bg-yellow-700 px-8 py-3 rounded text-lg font-semibold transition-colors">
+                Book Your Appointment
+            </button>
+        </div>
+    </section>
+
+    <!-- Services Section -->
+    <section id="services" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Our Services</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="service-card relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="openServiceModal('haircut')">
+                    <img src="New folder/hero-image-2.jpg" alt="Haircut" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-xl font-bold mb-2">Premium Haircut</h3>
+                            <p class="text-lg">₦15,000</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="openServiceModal('beard')">
+                    <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Beard Trim" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-xl font-bold mb-2">Beard Styling</h3>
+                            <p class="text-lg">₦8,000</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="openServiceModal('shave')">
+                    <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hot Shave" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-xl font-bold mb-2">Hot Towel Shave</h3>
+                            <p class="text-lg">₦12,000</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="openServiceModal('facial')">
+                    <img src="New folder/photo_1_2025-09-06_22-41-23.jpg" alt="Facial" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-xl font-bold mb-2">Gentleman's Facial</h3>
+                            <p class="text-lg">₦20,000</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="openServiceModal('massage')">
+                    <img src="New folder/photo_3_2025-09-06_22-41-23.jpg" alt="Massage" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-xl font-bold mb-2">Head Massage</h3>
+                            <p class="text-lg">₦10,000</p>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="service-card relative overflow-hidden rounded-lg shadow-lg hover:shadow-xl transition-shadow cursor-pointer" onclick="openServiceModal('styling')">
+                    <img src="https://images.unsplash.com/photo-1605497788044-5a32c7078486?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Hair Styling" class="w-full h-64 object-cover">
+                    <div class="absolute inset-0 bg-black bg-opacity-40 flex items-center justify-center">
+                        <div class="text-white text-center">
+                            <h3 class="text-xl font-bold mb-2">Hair Styling</h3>
+                            <p class="text-lg">₦7,000</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Gallery Section -->
+    <section id="gallery" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Our Gallery</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto">
+                <div class="flip-card h-80">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="New folder/hero-image-2.jpg" alt="Haircut Style 1" class="w-full h-full object-cover rounded-lg">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-4 rounded-b-lg">
+                                <h3 class="font-bold">Classic Fade</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back flex items-center justify-center">
+                            <button onclick="openGalleryModal('classic-fade')" class="bg-yellow-800 hover:bg-yellow-900 text-white px-6 py-3 rounded font-semibold">
+                                Read More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-card h-80">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Beard Style 1" class="w-full h-full object-cover rounded-lg">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-4 rounded-b-lg">
+                                <h3 class="font-bold">Beard Sculpting</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back flex items-center justify-center">
+                            <button onclick="openGalleryModal('beard-sculpting')" class="bg-yellow-800 hover:bg-yellow-900 text-white px-6 py-3 rounded font-semibold">
+                                Read More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="flip-card h-80">
+                    <div class="flip-card-inner">
+                        <div class="flip-card-front">
+                            <img src="https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Shave Style" class="w-full h-full object-cover rounded-lg">
+                            <div class="absolute bottom-0 left-0 right-0 bg-black bg-opacity-70 text-white p-4 rounded-b-lg">
+                                <h3 class="font-bold">Premium Shave</h3>
+                            </div>
+                        </div>
+                        <div class="flip-card-back flex items-center justify-center">
+                            <button onclick="openGalleryModal('premium-shave')" class="bg-yellow-800 hover:bg-yellow-900 text-white px-6 py-3 rounded font-semibold">
+                                Read More
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Testimonials Section -->
+    <section class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">What Our Clients Say</h2>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Client 1" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">John Smith</h4>
+                            <div class="text-yellow-500">★★★★★</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Exceptional service and attention to detail. The best salon experience I've ever had!"</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Client 2" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">Michael Johnson</h4>
+                            <div class="text-yellow-500">★★★★★</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Professional staff and premium quality services. Highly recommended for all gentlemen."</p>
+                </div>
+                
+                <div class="bg-gray-50 p-6 rounded-lg shadow-md">
+                    <div class="flex items-center mb-4">
+                        <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=100&q=80" alt="Client 3" class="w-12 h-12 rounded-full mr-4">
+                        <div>
+                            <h4 class="font-bold">David Wilson</h4>
+                            <div class="text-yellow-500">★★★★★</div>
+                        </div>
+                    </div>
+                    <p class="text-gray-600">"Amazing atmosphere and skilled barbers. I always leave feeling confident and refreshed."</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Join Our Team Section -->
+    <section id="team" class="py-16 bg-gray-100">
+        <div class="container mx-auto px-4 text-center">
+            <h2 class="text-3xl md:text-4xl font-bold mb-8">Join Our Team</h2>
+            <p class="text-lg mb-8 max-w-2xl mx-auto">Are you a skilled barber looking to work in a premium environment? We're always looking for talented professionals to join our team.</p>
+            <button onclick="openApplyForm()" class="bg-yellow-600 hover:bg-yellow-700 text-white px-8 py-3 rounded font-semibold transition-colors">
+                Apply Now
+            </button>
+        </div>
+    </section>
+
+    <!-- Contact Section -->
+    <section id="contact" class="py-16 bg-white">
+        <div class="container mx-auto px-4">
+            <h2 class="text-3xl md:text-4xl font-bold text-center mb-12">Contact Us</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Get in Touch</h3>
+                    <div class="space-y-4">
+                        <div class="flex items-center">
+                            <i class="fas fa-map-marker-alt text-yellow-600 mr-3"></i>
+                            <span>123 Elite Street, Lagos, Nigeria</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-phone text-yellow-600 mr-3"></i>
+                            <span>+234 123 456 7890</span>
+                        </div>
+                        <div class="flex items-center">
+                            <i class="fas fa-envelope text-yellow-600 mr-3"></i>
+                            <span>info@elitemensalon.com</span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div>
+                    <form id="contactForm" class="space-y-4">
+                        <input type="text" id="contactName" placeholder="Your Name" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                        <input type="email" id="contactEmail" placeholder="Your Email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                        <textarea id="contactMessage" placeholder="Your Message" rows="4" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600"></textarea>
+                        <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded font-semibold transition-colors">
+                            Send Message
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-black text-white py-12">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <div>
+                    <h3 class="text-xl font-bold mb-4">Unisex Salon</h3>
+                    <p class="text-gray-400">Premium grooming services for everyone.</p>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Services</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#" onclick="openServiceModal('haircut')" class="hover:text-white">Premium Haircut</a></li>
+                        <li><a href="#" onclick="openServiceModal('beard')" class="hover:text-white">Beard Styling</a></li>
+                        <li><a href="#" onclick="openServiceModal('shave')" class="hover:text-white">Hot Towel Shave</a></li>
+                        <li><a href="#" onclick="openServiceModal('facial')" class="hover:text-white">Gentleman's Facial</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Quick Links</h4>
+                    <ul class="space-y-2 text-gray-400">
+                        <li><a href="#home" class="hover:text-white">Home</a></li>
+                        <li><a href="#services" class="hover:text-white">Services</a></li>
+                        <li><a href="#gallery" class="hover:text-white">Gallery</a></li>
+                        <li><a href="#contact" class="hover:text-white">Contact</a></li>
+                    </ul>
+                </div>
+                
+                <div>
+                    <h4 class="font-bold mb-4">Follow Us</h4>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-facebook"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-instagram"></i></a>
+                        <a href="#" class="text-gray-400 hover:text-white"><i class="fab fa-twitter"></i></a>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-400">
+                <p>&copy; 2024 Unisex Salon. All rights reserved.</p>
+                <p class="mt-2 text-sm">James Dev &lt;/&gt;</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Sticky Social Icons -->
+    <div class="sticky-icons">
+        <div class="flex flex-col space-y-3">
+            <a href="https://wa.me/2341234567890" target="_blank" class="bg-green-500 hover:bg-green-600 text-white p-3 rounded-full shadow-lg transition-colors">
+                <i class="fab fa-whatsapp text-xl"></i>
+            </a>
+            <button onclick="openContact()" class="bg-blue-500 hover:bg-blue-600 text-white p-3 rounded-full shadow-lg transition-colors">
+                <i class="fas fa-envelope text-xl"></i>
+            </button>
+        </div>
+    </div>
+
+    <!-- Booking Modal -->
+    <div id="bookingModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="slide-in fixed right-0 top-0 h-full w-full md:w-96 bg-white p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Book Appointment</h2>
+                <button onclick="closeBooking()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="bookingForm" class="space-y-4">
+                <input type="text" id="bookingName" placeholder="Full Name" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <input type="email" id="bookingEmail" placeholder="Email Address" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <input type="tel" id="bookingPhone" placeholder="Phone Number" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <select id="bookingService" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                    <option value="">Select Service</option>
+                    <option value="haircut">Premium Haircut - ₦15,000</option>
+                    <option value="beard">Beard Styling - ₦8,000</option>
+                    <option value="shave">Hot Towel Shave - ₦12,000</option>
+                    <option value="facial">Gentleman's Facial - ₦20,000</option>
+                    <option value="massage">Head Massage - ₦10,000</option>
+                    <option value="styling">Hair Styling - ₦7,000</option>
+                </select>
+                <input type="date" id="bookingDate" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <select id="bookingTime" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                    <option value="">Select Time</option>
+                    <option value="09:00">9:00 AM</option>
+                    <option value="10:00">10:00 AM</option>
+                    <option value="11:00">11:00 AM</option>
+                    <option value="12:00">12:00 PM</option>
+                    <option value="13:00">1:00 PM</option>
+                    <option value="14:00">2:00 PM</option>
+                    <option value="15:00">3:00 PM</option>
+                    <option value="16:00">4:00 PM</option>
+                    <option value="17:00">5:00 PM</option>
+                </select>
+                <textarea id="bookingNotes" placeholder="Special Requests (Optional)" rows="3" class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600"></textarea>
+                <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded font-semibold transition-colors">
+                    Book Appointment
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Apply Form Modal -->
+    <div id="applyModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="slide-in fixed right-0 top-0 h-full w-full md:w-96 bg-white p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Apply Now</h2>
+                <button onclick="closeApplyForm()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="applyForm" class="space-y-4">
+                <input type="text" id="applyName" placeholder="Full Name" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <input type="email" id="applyEmail" placeholder="Email Address" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <input type="tel" id="applyPhone" placeholder="Phone Number" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <select id="applyPosition" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                    <option value="">Select Position</option>
+                    <option value="barber">Senior Barber</option>
+                    <option value="stylist">Hair Stylist</option>
+                    <option value="receptionist">Receptionist</option>
+                    <option value="manager">Salon Manager</option>
+                </select>
+                <input type="number" id="applyExperience" placeholder="Years of Experience" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <textarea id="applyCover" placeholder="Cover Letter" rows="4" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600"></textarea>
+                <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded font-semibold transition-colors">
+                    Submit Application
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Contact Modal -->
+    <div id="contactModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden">
+        <div class="slide-in fixed right-0 top-0 h-full w-full md:w-96 bg-white p-6 overflow-y-auto">
+            <div class="flex justify-between items-center mb-6">
+                <h2 class="text-2xl font-bold">Contact Us</h2>
+                <button onclick="closeContact()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            
+            <form id="contactModalForm" class="space-y-4">
+                <input type="text" id="modalContactName" placeholder="Your Name" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <input type="email" id="modalContactEmail" placeholder="Your Email" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <input type="tel" id="modalContactPhone" placeholder="Your Phone" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600">
+                <textarea id="modalContactMessage" placeholder="Your Message" rows="4" required class="w-full p-3 border border-gray-300 rounded focus:outline-none focus:border-yellow-600"></textarea>
+                <button type="submit" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded font-semibold transition-colors">
+                    Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Service Modal -->
+    <div id="serviceModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold" id="serviceModalTitle">Service Details</h2>
+                <button onclick="closeServiceModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="serviceModalContent" class="mb-6">
+                <!-- Service content will be populated by JavaScript -->
+            </div>
+            <button onclick="openBooking()" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded font-semibold transition-colors">
+                Book This Service
+            </button>
+        </div>
+    </div>
+
+    <!-- Gallery Modal -->
+    <div id="galleryModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center">
+        <div class="bg-white p-8 rounded-lg max-w-md w-full mx-4">
+            <div class="flex justify-between items-center mb-4">
+                <h2 class="text-2xl font-bold" id="galleryModalTitle">Gallery Details</h2>
+                <button onclick="closeGalleryModal()" class="text-gray-500 hover:text-gray-700">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+            <div id="galleryModalContent" class="mb-6">
+                <!-- Gallery content will be populated by JavaScript -->
+            </div>
+            <button onclick="openBooking()" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white py-3 rounded font-semibold transition-colors">
+                Book Appointment
+            </button>
+        </div>
+    </div>
+
+    <script>
+        // Hero image rotation - EASILY CHANGEABLE IMAGES
+        // To change images: Simply replace the URLs below with your own image URLs
+        const heroImages = [
+            {
+                url: 'hero-image-1.jpg', // Replace with your first hero image
+                title: 'Welcome to Unisex Salon',
+                subtitle: 'Experience premium grooming services for everyone'
+            },
+            {
+                url: 'hero-image-2.jpg', // Replace with your second hero image
+                title: 'Master Craftsmanship',
+                subtitle: 'Our skilled stylists deliver precision cuts with artistic flair for all'
+            },
+            {
+                url: 'hero-image-3.jpg', // Replace with your third hero image
+                title: 'Luxury Experience',
+                subtitle: 'Indulge in our premium services in a sophisticated atmosphere'
+            },
+            {
+                url: 'hero-image-4.jpg', // Replace with your fourth hero image
+                title: 'Traditional Excellence',
+                subtitle: 'Classic techniques meet modern style for the perfect grooming experience'
+            }
+        ];
+
+        // Fallback images (current Unsplash images) - used if custom images fail to load
+        const fallbackImages = [
+            'https://images.unsplash.com/photo-1585747860715-2ba37e788b70?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+            'https://images.unsplash.com/photo-1622286346003-c8b4473c0fc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+            'https://images.unsplash.com/photo-1621605815971-fbc98d665033?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80',
+            'https://images.unsplash.com/photo-1503951914875-452162b0f3f1?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80'
+        ];
+
+        let currentHeroIndex = 0;
+
+        function rotateHeroImage() {
+            const heroSection = document.querySelector('.hero-bg');
+            const heroTitle = document.getElementById('heroTitle');
+            const heroSubtitle = document.getElementById('heroSubtitle');
+            
+            // Fade out
+            heroSection.style.opacity = '0';
+            
+            setTimeout(() => {
+                currentHeroIndex = (currentHeroIndex + 1) % heroImages.length;
+                const currentImage = heroImages[currentHeroIndex];
+                
+                // Try to load the custom image, fallback to Unsplash if it fails
+                const img = new Image();
+                img.onload = function() {
+                    heroSection.style.backgroundImage = `url('${currentImage.url}')`;
+                };
+                img.onerror = function() {
+                    // Use fallback image if custom image fails to load
+                    heroSection.style.backgroundImage = `url('${fallbackImages[currentHeroIndex]}')`;
+                };
+                img.src = currentImage.url;
+                
+                heroTitle.textContent = currentImage.title;
+                heroSubtitle.textContent = currentImage.subtitle;
+                
+                // Fade in
+                heroSection.style.opacity = '1';
+            }, 500);
+        }
+
+        // Start hero rotation
+        setInterval(rotateHeroImage, 5000);
+
+        // Gallery slider
+        let currentSlide = 0;
+        const slides = document.querySelectorAll('.flip-card');
+        const totalSlides = slides.length;
+
+        function slideGallery(direction) {
+            const slider = document.getElementById('gallerySlider');
+            const slideWidth = 336; // 320px + 16px margin
+            
+            if (direction === 'next') {
+                currentSlide++;
+                if (currentSlide >= totalSlides) {
+                    // Move first slide to the end
+                    const firstSlide = slider.firstElementChild;
+                    slider.appendChild(firstSlide);
+                    currentSlide = totalSlides - 1;
+                    slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+                } else {
+                    slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+                }
+            } else {
+                currentSlide--;
+                if (currentSlide < 0) {
+                    // Move last slide to the beginning
+                    const lastSlide = slider.lastElementChild;
+                    slider.insertBefore(lastSlide, slider.firstElementChild);
+                    currentSlide = 0;
+                    slider.style.transform = `translateX(0px)`;
+                } else {
+                    slider.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
+                }
+            }
+        }
+
+        // Modal functions
+        function openBooking() {
+            const modal = document.getElementById('bookingModal');
+            const slideIn = modal.querySelector('.slide-in');
+            modal.classList.remove('hidden');
+            setTimeout(() => slideIn.classList.add('active'), 10);
+        }
+
+        function closeBooking() {
+            const modal = document.getElementById('bookingModal');
+            const slideIn = modal.querySelector('.slide-in');
+            slideIn.classList.remove('active');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function openApplyForm() {
+            const modal = document.getElementById('applyModal');
+            const slideIn = modal.querySelector('.slide-in');
+            modal.classList.remove('hidden');
+            setTimeout(() => slideIn.classList.add('active'), 10);
+        }
+
+        function closeApplyForm() {
+            const modal = document.getElementById('applyModal');
+            const slideIn = modal.querySelector('.slide-in');
+            slideIn.classList.remove('active');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function openContact() {
+            const modal = document.getElementById('contactModal');
+            const slideIn = modal.querySelector('.slide-in');
+            modal.classList.remove('hidden');
+            setTimeout(() => slideIn.classList.add('active'), 10);
+        }
+
+        function closeContact() {
+            const modal = document.getElementById('contactModal');
+            const slideIn = modal.querySelector('.slide-in');
+            slideIn.classList.remove('active');
+            setTimeout(() => modal.classList.add('hidden'), 300);
+        }
+
+        function openServiceModal(service) {
+            const modal = document.getElementById('serviceModal');
+            const title = document.getElementById('serviceModalTitle');
+            const content = document.getElementById('serviceModalContent');
+            
+            const services = {
+                haircut: {
+                    title: 'Premium Haircut',
+                    content: 'Our premium haircut service includes consultation, precision cutting, styling, and finishing. Our master barbers use the latest techniques to create the perfect look for you. Price: ₦15,000'
+                },
+                beard: {
+                    title: 'Beard Styling',
+                    content: 'Professional beard trimming and styling service. We shape and style your beard to complement your face shape and personal style. Includes beard oil treatment. Price: ₦8,000'
+                },
+                shave: {
+                    title: 'Hot Towel Shave',
+                    content: 'Traditional hot towel shave experience with premium products. Includes pre-shave oil, hot towel treatment, and aftershave balm. Price: ₦12,000'
+                },
+                facial: {
+                    title: 'Gentleman\'s Facial',
+                    content: 'Deep cleansing facial treatment designed specifically for men. Includes exfoliation, extraction, and moisturizing. Perfect for maintaining healthy skin. Price: ₦20,000'
+                },
+                massage: {
+                    title: 'Head Massage',
+                    content: 'Relaxing head and scalp massage to relieve stress and promote hair health. Uses premium oils and techniques. Price: ₦10,000'
+                },
+                styling: {
+                    title: 'Hair Styling',
+                    content: 'Professional hair styling service for special occasions or daily wear. Includes product application and finishing. Price: ₦7,000'
+                }
+            };
+            
+            title.textContent = services[service].title;
+            content.innerHTML = `<p>${services[service].content}</p>`;
+            modal.classList.remove('hidden');
+        }
+
+        function closeServiceModal() {
+            document.getElementById('serviceModal').classList.add('hidden');
+        }
+
+        function openGalleryModal(item) {
+            const modal = document.getElementById('galleryModal');
+            const title = document.getElementById('galleryModalTitle');
+            const content = document.getElementById('galleryModalContent');
+            
+            const galleryItems = {
+                'classic-fade': {
+                    title: 'Classic Fade',
+                    content: 'A timeless fade cut that never goes out of style. Perfect blend of traditional barbering with modern techniques.'
+                },
+                'beard-sculpting': {
+                    title: 'Beard Sculpting',
+                    content: 'Precision beard shaping and sculpting to enhance your facial features and create the perfect masculine look.'
+                },
+                'premium-shave': {
+                    title: 'Premium Shave',
+                    content: 'The ultimate shaving experience with hot towels, premium products, and masterful technique for the smoothest finish.'
+                },
+                'modern-styling': {
+                    title: 'Modern Styling',
+                    content: 'Contemporary hair styling that keeps you looking sharp and on-trend for any occasion.'
+                },
+
+            };
+            
+            title.textContent = galleryItems[item].title;
+            content.innerHTML = `<p>${galleryItems[item].content}</p>`;
+            modal.classList.remove('hidden');
+        }
+
+        function closeGalleryModal() {
+            document.getElementById('galleryModal').classList.add('hidden');
+        }
+
+        function scrollToTop() {
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        // Form submissions
+        document.getElementById('bookingForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Booking request submitted successfully! We will contact you shortly to confirm your appointment.');
+            closeBooking();
+            this.reset();
+        });
+
+        document.getElementById('applyForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Application submitted successfully! We will review your application and get back to you soon.');
+            closeApplyForm();
+            this.reset();
+        });
+
+        document.getElementById('contactForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Message sent successfully! We will get back to you soon.');
+            this.reset();
+        });
+
+        document.getElementById('contactModalForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            alert('Message sent successfully! We will get back to you soon.');
+            closeContact();
+            this.reset();
+        });
+
+        // Smooth scrolling for navigation links
+        document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+            anchor.addEventListener('click', function (e) {
+                e.preventDefault();
+                const target = document.querySelector(this.getAttribute('href'));
+                if (target) {
+                    target.scrollIntoView({
+                        behavior: 'smooth',
+                        block: 'start'
+                    });
+                }
+            });
+        });
+
+        // Close modals when clicking outside
+        document.addEventListener('click', function(e) {
+            if (e.target.classList.contains('fixed') && e.target.classList.contains('inset-0')) {
+                closeBooking();
+                closeApplyForm();
+                closeContact();
+                closeServiceModal();
+                closeGalleryModal();
+            }
+        });
+
+        // Set minimum date for booking to today
+        document.getElementById('bookingDate').min = new Date().toISOString().split('T')[0];
+    </script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97b12c68b5f5291b',t:'MTc1NzE5NTMzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>
