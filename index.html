@@ -111,9 +111,52 @@
                     <a href="#contact" class="hover:text-yellow-400 transition-colors">Contact</a>
                 </nav>
                 
-                <button onclick="openBooking()" class="bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition-colors">
-                    Book Now
-                </button>
+                <div class="flex items-center space-x-4">
+                    <button onclick="openBooking()" class="hidden md:block bg-yellow-600 hover:bg-yellow-700 px-4 py-2 rounded transition-colors">
+                        Book Now
+                    </button>
+                    
+                    <!-- Mobile Menu Button -->
+                    <button onclick="toggleMobileMenu()" class="md:hidden text-white focus:outline-none">
+                        <i id="hamburgerIcon" class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Mobile Menu -->
+        <div id="mobileMenu" class="md:hidden fixed top-0 left-0 w-full h-full bg-black bg-opacity-95 z-40 transform -translate-x-full transition-transform duration-300">
+            <div class="flex flex-col h-full pt-20 px-6">
+                <nav class="flex flex-col space-y-6 text-lg">
+                    <a href="#home" onclick="closeMobileMenu()" class="text-white hover:text-yellow-400 transition-colors py-2 border-b border-gray-700">Home</a>
+                    <a href="#services" onclick="closeMobileMenu()" class="text-white hover:text-yellow-400 transition-colors py-2 border-b border-gray-700">Services</a>
+                    
+                    <!-- Mobile Gallery Dropdown -->
+                    <div class="border-b border-gray-700">
+                        <button onclick="toggleMobileGallery()" class="w-full text-left text-white hover:text-yellow-400 transition-colors py-2 flex justify-between items-center">
+                            Gallery <i id="mobileGalleryIcon" class="fas fa-chevron-down"></i>
+                        </button>
+                        <div id="mobileGalleryMenu" class="hidden pl-4 pb-2">
+                            <a href="#gallery" onclick="closeMobileMenu()" class="flex items-center py-2 text-gray-300 hover:text-yellow-400">
+                                <img src="https://images.unsplash.com/photo-1622286346003-c8b4473c0fc2?ixlib=rb-4.0.3&auto=format&fit=crop&w=40&q=80" alt="Men's Gallery" class="w-6 h-6 rounded mr-2 object-cover">
+                                Men's Gallery
+                            </a>
+                            <a href="https://example.com/womens-gallery" target="_blank" onclick="closeMobileMenu()" class="flex items-center py-2 text-gray-300 hover:text-yellow-400">
+                                <img src="https://images.unsplash.com/photo-1560066984-138dadb4c035?ixlib=rb-4.0.3&auto=format&fit=crop&w=40&q=80" alt="Women's Gallery" class="w-6 h-6 rounded mr-2 object-cover">
+                                Women's Gallery
+                            </a>
+                        </div>
+                    </div>
+                    
+                    <a href="#team" onclick="closeMobileMenu()" class="text-white hover:text-yellow-400 transition-colors py-2 border-b border-gray-700">Join Our Team</a>
+                    <a href="#contact" onclick="closeMobileMenu()" class="text-white hover:text-yellow-400 transition-colors py-2 border-b border-gray-700">Contact</a>
+                </nav>
+                
+                <div class="mt-8">
+                    <button onclick="openBooking(); closeMobileMenu();" class="w-full bg-yellow-600 hover:bg-yellow-700 text-white px-6 py-3 rounded text-lg font-semibold transition-colors">
+                        Book Now
+                    </button>
+                </div>
             </div>
         </div>
     </header>
@@ -603,6 +646,55 @@
         // Start hero rotation
         setInterval(rotateHeroImage, 5000);
 
+        // Mobile menu functions
+        function toggleMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburgerIcon = document.getElementById('hamburgerIcon');
+            
+            if (mobileMenu.classList.contains('-translate-x-full')) {
+                // Open menu
+                mobileMenu.classList.remove('-translate-x-full');
+                mobileMenu.classList.add('translate-x-0');
+                hamburgerIcon.classList.remove('fa-bars');
+                hamburgerIcon.classList.add('fa-times');
+            } else {
+                // Close menu
+                closeMobileMenu();
+            }
+        }
+
+        function closeMobileMenu() {
+            const mobileMenu = document.getElementById('mobileMenu');
+            const hamburgerIcon = document.getElementById('hamburgerIcon');
+            
+            mobileMenu.classList.remove('translate-x-0');
+            mobileMenu.classList.add('-translate-x-full');
+            hamburgerIcon.classList.remove('fa-times');
+            hamburgerIcon.classList.add('fa-bars');
+            
+            // Also close mobile gallery dropdown
+            const mobileGalleryMenu = document.getElementById('mobileGalleryMenu');
+            const mobileGalleryIcon = document.getElementById('mobileGalleryIcon');
+            mobileGalleryMenu.classList.add('hidden');
+            mobileGalleryIcon.classList.remove('fa-chevron-up');
+            mobileGalleryIcon.classList.add('fa-chevron-down');
+        }
+
+        function toggleMobileGallery() {
+            const mobileGalleryMenu = document.getElementById('mobileGalleryMenu');
+            const mobileGalleryIcon = document.getElementById('mobileGalleryIcon');
+            
+            if (mobileGalleryMenu.classList.contains('hidden')) {
+                mobileGalleryMenu.classList.remove('hidden');
+                mobileGalleryIcon.classList.remove('fa-chevron-down');
+                mobileGalleryIcon.classList.add('fa-chevron-up');
+            } else {
+                mobileGalleryMenu.classList.add('hidden');
+                mobileGalleryIcon.classList.remove('fa-chevron-up');
+                mobileGalleryIcon.classList.add('fa-chevron-down');
+            }
+        }
+
         // Gallery slider
         let currentSlide = 0;
         const slides = document.querySelectorAll('.flip-card');
@@ -815,5 +907,5 @@
         // Set minimum date for booking to today
         document.getElementById('bookingDate').min = new Date().toISOString().split('T')[0];
     </script>
-<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97b12c68b5f5291b',t:'MTc1NzE5NTMzNy4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'97b6f9c806a6d22e',t:'MTc1NzI1NjE3OC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
 </html>
